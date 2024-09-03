@@ -1,7 +1,7 @@
 class_name EnemySpawner
 extends Node
 
-@export var spawns: Array[SpawnInfo] = []
+@export var spawn: Array[SpawnInfo] = []
 @export var player: Player
 
 @export var time: float = 0
@@ -9,22 +9,19 @@ extends Node
 signal changetime(time: float)
 
 func _on_timer_timeout() -> void:
-	time += 1
-	var enemy_spawns: Array[SpawnInfo] = spawns
-	for i in enemy_spawns:
-		if time >= i.time_start and time <= i.time_end:
-			if i.spawn_delay_counter < i.enemy_spawn_delay:
-				i.spawn_delay_counter += 1
-			else:
-				i.spawn_delay_counter = 0
-				var new_enemy: PackedScene = i.enemy
-				var counter: int  = 0
-				while counter < i.enemy_num:
-					var enemy_spawn: Enemy = new_enemy.instantiate()
-					enemy_spawn.global_position = get_random_position()
-					add_sibling(enemy_spawn)
-					counter += 1
-	emit_signal("changetime", time)
+	for info: SpawnInfo in spawn:
+		if _current_round in info.round_spawn:
+			if _current_time >= info.time_start and _current_time <= info.time_end:
+				if _current_enemy_counter < max_enemy_counter:
+					var counter = 0
+					while counter < info.enemy_interval:
+						var enemy_spawn = info.enemy.instantiate()
+						enemy_spawn.entity_death.connect(_clear_enemies.bind(enemy_spawn))
+						enemy_spawn.global_position = _get_random_position()
+						add_child(enemy_spawn, true)
+						_enemy_array.append(enemy_spawn)
+						_current_enemy_counter += 1
+						counter += 1
 
 func get_random_position() -> Vector2:
 	var vpr := get_viewport().get_visible_rect().size * randf_range(1.1, 1.4)
