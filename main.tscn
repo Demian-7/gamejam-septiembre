@@ -1,13 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://bgvavtn2u0tc5"]
+[gd_scene load_steps=4 format=3 uid="uid://bgvavtn2u0tc5"]
 
-[ext_resource type="Texture2D" uid="uid://d2h2xqca1w32v" path="res://icon.svg" id="1_efekd"]
-[ext_resource type="Script" path="res://machin.gd" id="2_mpno5"]
+[ext_resource type="Script" path="res://scripts/spawner/enemy_spawner.gd" id="1_s6y4y"]
+[ext_resource type="Script" path="res://scripts/spawner/spawner_info.gd" id="2_7sk4o"]
+
+[sub_resource type="Resource" id="Resource_ei4vj"]
+script = ExtResource("2_7sk4o")
+enemy_interval = 5
+round_spawn = Array[int]([1])
+time_start = 0
+time_end = 0
 
 [node name="main" type="Node2D"]
 
-[node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(534, 328)
-texture = ExtResource("1_efekd")
-
-[node name="StateMachine" type="Node" parent="."]
-script = ExtResource("2_mpno5")
+[node name="EnemySpawner" type="Node" parent="."]
+script = ExtResource("1_s6y4y")
+spawns = Array[ExtResource("2_7sk4o")]([SubResource("Resource_ei4vj")])
