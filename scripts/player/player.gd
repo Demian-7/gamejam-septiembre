@@ -2,7 +2,23 @@ class_name Player
 extends CharacterBody2D
 
 @export var speed : float = 500
+
 var target_direction := Vector2.ZERO
+var cooldown_timer: Timer
+var reload_timer: Timer
+var bullet := preload("res://nodes/bullet.tscn")
+var can_shoot := true
+var max_ammo := 4
+var current_ammo := 4
+
+func _ready() -> void:
+	#Timer para el cooldown del disparo
+	cooldown_timer = Timer.new()
+	cooldown_timer.wait_time = 1
+	add_child(cooldown_timer)
+	
+	
+	
 
 
 func _physics_process(delta: float) -> void:
@@ -18,5 +34,35 @@ func _physics_process(delta: float) -> void:
 
 	
 	velocity = target_direction * speed
-	
 	move_and_slide()
+	
+	#Disparar
+	if Input.is_key_pressed(KEY_F):
+		if current_ammo >=1 && can_shoot:
+			shoot()
+			
+	#Recargar
+	if Input.is_key_pressed(KEY_R):
+		if current_ammo <4:
+			reload()
+		
+	# Creacion de las balas y manejo del cooldown
+func shoot() -> void:
+	
+	var bullet_instance:= bullet.instantiate() as Bullet
+	bullet_instance.position = global_position
+	bullet_instance.direction = target_direction
+		
+	get_parent().add_child(bullet_instance)
+	
+	current_ammo -= 1
+	can_shoot = false
+	cooldown_timer.start()
+	
+
+func on_timer_timeout() -> void:
+	can_shoot = true
+	
+
+func reload() -> void:
+	current_ammo = max_ammo
