@@ -3,13 +3,16 @@ extends CharacterBody2D
 
 @export var speed : float = 500
 
+#Player movement
 var target_direction := Vector2.ZERO
-var cooldown_timer: Timer
-var reload_timer: Timer
+
+#Shooting and reloading
 var bullet := preload("res://nodes/bullet.tscn")
+var cooldown_timer: Timer
 var can_shoot := true
 var max_ammo := 4
 var current_ammo := 4
+signal reloading
 
 func _ready() -> void:
 	#Timer para el cooldown del disparo
@@ -66,3 +69,4 @@ func on_timer_timeout() -> void:
 
 func reload() -> void:
 	current_ammo = max_ammo
+	emit_signal("reloading")
