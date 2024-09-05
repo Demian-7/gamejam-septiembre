@@ -13,11 +13,11 @@ var direction := Vector2.RIGHT
 func _process(delta: float) -> void:
 	position += direction * speed * delta
 	
+	look_at(direction)
 	traveled_distance += speed * delta
 	if traveled_distance > max_range:
 		queue_free()
 	
-	pass
 
 
 func _on_collision_area_entered(area: Area2D) -> void:

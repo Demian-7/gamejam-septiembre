@@ -4,15 +4,16 @@
 [ext_resource type="Script" path="res://nodes/bullet.gd" id="1_xtsf8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dqq1r"]
-radius = 8.0
-height = 36.0
+radius = 3.0
+height = 16.0
 
 [node name="Bullet" type="Node2D"]
 script = ExtResource("1_xtsf8")
+speed = 500.0
+max_range = 500.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5708
-scale = Vector2(2, 2)
 texture = ExtResource("1_vhbty")
 
 [node name="Collision" type="Area2D" parent="."]
