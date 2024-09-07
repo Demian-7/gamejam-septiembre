@@ -38,6 +38,7 @@ func _physics_process(delta: float) -> void:
 		enemy.velocity = (player.global_position - enemy.global_position).normalized() * enemy.speed
 		if enemy.velocity.normalized().x > 0:
 			enemy.scale.x = 1
+			
 		else:
 			enemy.scale.x = -1
 		enemy.move_and_slide()

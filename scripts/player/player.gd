@@ -7,6 +7,7 @@ const BULLET := preload("res://nodes/bullet.tscn")
 
 @export var speed: float = 500
 @export var shoot_cd: float = 0.2
+@export var health : float = 100
 
 #Player movement
 var target_direction := Vector2.ZERO
@@ -63,3 +64,9 @@ func on_timer_timeout() -> void:
 func reload() -> void:
 	current_ammo = max_ammo
 	emit_signal("reloading")
+
+func takeDamage(dmg: float) -> void:
+	health -= dmg
+	
+	if health<= 0:
+		queue_free()

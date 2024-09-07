@@ -1,10 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://krfyculv1p6q"]
+[gd_scene load_steps=4 format=3 uid="uid://krfyculv1p6q"]
 
 [ext_resource type="Script" path="res://scripts/enemy/enemy.gd" id="1_gn1e3"]
-[ext_resource type="Texture2D" uid="uid://d2h2xqca1w32v" path="res://icon.svg" id="2_5xlgm"]
+[ext_resource type="Texture2D" uid="uid://b4ymhdpf7pyx1" path="res://sprites/enemy_solo.png" id="2_40tio"]
 
-[node name="Enemy" type="CharacterBody2D"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jd8nf"]
+
+[node name="Enemy" type="CharacterBody2D" groups=["Enemy"]]
 script = ExtResource("1_gn1e3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_5xlgm")
+texture = ExtResource("2_40tio")
+
+[node name="Area2D" type="Area2D" parent="." groups=["Enemy"]]
+scale = Vector2(0.5, 0.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-2, 0)
+scale = Vector2(1.2, 1.2)
+shape = SubResource("CapsuleShape2D_jd8nf")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

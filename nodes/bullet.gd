@@ -3,6 +3,7 @@ extends Node2D
 
 @export var speed: float = 1500
 @export var max_range: float = 1000
+@export var damage: float = 50
 
 var traveled_distance: float = 0
 var direction := Vector2.RIGHT
@@ -23,4 +24,5 @@ func _process(delta: float) -> void:
 func _on_collision_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Enemy"):
 		queue_free()
-	pass # Replace with function body.
+		area.get_parent().takeDamage(damage)
+	
